@@ -1,0 +1,67 @@
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+@{
+    ViewBag.Title = "ViewSpotifySearchResults";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Results for : </h2>
+
+<p>
+    <h2>@ViewBag.count</h2>
+    <h2>@ViewBag.name</h2>
+    <h2>@ViewBag.error</h2>
+</p>
+
+@if (Model != null)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Artists)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Album)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DurationMs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @foreach (var artist in item.Artists)
+        {
+            artist.Name = "-" + artist.Name;
+        @Html.DisplayFor(modelItem => artist.Name)
+            <br />
+        }
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Album.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DurationMs)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+        @Html.ActionLink("AddSong", "AddSong", new { songName = item.Name, sourceType = 0, sourceData = "spotify:track:" + item.Id }) |
+    </td>
+</tr>
+    }
+
+</table>
+}

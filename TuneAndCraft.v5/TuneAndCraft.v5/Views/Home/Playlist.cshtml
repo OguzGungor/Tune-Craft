@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SpotifyAPI.Web.Models.PlaylistTrack>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2 style="color: #B0FDFF;text-align: center">@ViewBag.playlist</h2>
+
+<table class="table">
+    <tr>
+        <th style="color:#B0FDFF;">
+            Name
+        </th>
+        <th style="color:#B0FDFF;">
+            Artists
+        </th>
+        <th style="color:#B0FDFF;">
+            Album
+        </th>
+        <th style="color:#B0FDFF;">
+            DurationMs
+        </th>
+        <th style="color:#B0FDFF;">
+            Id
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.Track != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Track.Name)
+                </td>
+                <td>
+                    @try
+                    {
+                        foreach (var artist in item.Track.Artists)
+                        {
+                            artist.Name = "-" + artist.Name;
+                            @Html.DisplayFor(modelItem => artist.Name)
+                            <br />
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        <p>"error : " : @ex + " and item : " + @item </p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Track.Album.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Track.DurationMs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Track.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Add", "AddSong", "MySongs", new { songName = item.Track.Name, sourceType = 0, sourceData = "spotify:track:" + item.Track.Id }, null)
+
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+
+

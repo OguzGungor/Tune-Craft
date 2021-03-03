@@ -1,0 +1,89 @@
+﻿@model TuneAndCraft.v5.Models.SourceConcepts.Song
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <h2 style="text-align:center">Create</h2>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(Model => Model.SongName,htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label(Model.SongName, htmlAttributes: new { @style = "padding: 6px 12px;" })
+                @Html.ValidationMessageFor(model => model.SongName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(Model => Model.SourceType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label(Model.SourceType.ToString(), htmlAttributes: new { @style = "padding: 6px 12px;" })
+                @Html.ValidationMessageFor(model => model.SourceType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(Model => Model.SourceData, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label(Model.SourceData, htmlAttributes: new { @style = "padding: 6px 12px;" })
+                @Html.ValidationMessageFor(model => model.SourceData, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @{/* <h4>Song</h4>
+               <hr />
+               @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+               <div class="form-group">
+                   @Html.LabelFor(model => model.SongName, htmlAttributes: new { @class = "control-label col-md-2" })
+                   <div class="col-md-10">
+                       @Html.EditorFor(model => model.SongName, new { htmlAttributes = new { @class = "form-control" } })
+                       @Html.ValidationMessageFor(model => model.SongName, "", new { @class = "text-danger" })
+                   </div>
+               </div>
+
+               <div class="form-group">
+                   @Html.LabelFor(model => model.SourceData, htmlAttributes: new { @class = "control-label col-md-2" })
+                   <div class="col-md-10">
+                       @Html.EditorFor(model => model.SourceData, new { htmlAttributes = new { @class = "form-control" } })
+                       @Html.ValidationMessageFor(model => model.SourceData, "", new { @class = "text-danger" })
+                   </div>
+               </div>*/
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlaylistID, "PlaylistID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PlaylistID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PlaylistID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

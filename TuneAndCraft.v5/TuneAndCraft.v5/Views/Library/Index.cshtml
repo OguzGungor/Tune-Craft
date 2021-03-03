@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TuneAndCraft.v5.Models.SourceConcepts.Playlist>
+
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class="jumbotron">
+    <h2 style="color: #B0FDFF;text-align:center">Library</h2>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="jumbotron">
+            <table class="table">
+                <tr>
+                    <th style="color: #B0FDFF;">
+                        @Html.DisplayNameFor(model => model.Library.LibraryID)
+                    </th>
+                    <th style="color: #B0FDFF;">
+                        @Html.DisplayNameFor(model => model.PlaylistName)
+                    </th>
+                    <th style="color: #B0FDFF;">
+                        @Html.DisplayNameFor(model => model.SongQuantity)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Library.LibraryID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlaylistName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SongQuantity)
+                        </td>
+                        <td>
+
+                            @Html.ActionLink("Edit", "Edit", new { id = item.PlaylistID }) |
+                            @Html.ActionLink("Songs", "Details", new { id = item.PlaylistID }) |
+                            @Html.ActionLink("Remove", "Delete", new { id = item.PlaylistID }) |
+                            @Html.ActionLink("Play", "Index", "Player", new { playlistID = item.PlaylistID }, null)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron">
+            <p style="text-align:center;font-size:large">
+                @Html.ActionLink("Create New", "Create")
+            </p>
+        </div>
+    </div>
+</div>
+
+

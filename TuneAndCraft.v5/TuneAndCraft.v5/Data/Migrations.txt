@@ -1,0 +1,16 @@
+﻿
+--------------------------------------SourceContext--------------------------------------------
+
+Enable-Migrations -ContextTypeName SourceContext -MigrationsDirectory Migrations\SourceMigrations
+
+add-migration -ConfigurationTypeName TuneAndCraft.v5.Migrations.SourceMigrations.Configuration "InitialCreate"
+
+update-database -ConfigurationTypeName TuneAndCraft.v5.Migrations.SourceMigrations.Configuration
+
+--------------------------------------ApplicationDbContext----------------------------------------------
+
+Enable-Migrations -ContextTypeName ApplicationDbContext -MigrationsDirectory Migrations\IdentityMigrations
+
+add-migration -ConfigurationTypeName TuneAndCraft.v5.Migrations.IdentityMigrations.Configuration "InitialCreate"
+
+update-database -ConfigurationTypeName TuneAndCraft.v5.Migrations.IdentityMigrations.Configuration

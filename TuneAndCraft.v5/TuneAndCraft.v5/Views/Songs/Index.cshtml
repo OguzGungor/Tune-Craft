@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TuneAndCraft.v5.Models.SourceConcepts.Song>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Playlist.PlaylistName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SongName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SourceType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SourceData)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Playlist.PlaylistName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SongName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SourceType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SourceData)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SongID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SongID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SongID })
+        </td>
+    </tr>
+}
+
+</table>

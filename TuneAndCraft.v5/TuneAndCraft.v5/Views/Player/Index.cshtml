@@ -1,0 +1,324 @@
+﻿@model List<TuneAndCraft.v5.Models.SourceConcepts.Song>
+@{
+    ViewBag.Title = "Player";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class="jumbotron">
+    <h2 style="color: #B0FDFF;text-align:center">Player</h2>
+</div>
+
+
+
+<body>
+    <div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <hr />
+                            @if (Session["song"] != null)
+                            {
+                                if ((((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceType) == 0)
+                                {
+                                    <img id="image" style="width:100%">
+                                }
+                                else
+                                {
+                                    <iframe id="video" class="yt_player_iframe" width="300" height="315" frameborder="0" style="display:none;" allowfullscreen allowscriptaccess="always" allow="autoplay"></iframe>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <hr />
+                            @if (Session["song"] != null)
+                            {
+
+                                <h2> @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongName) </h2>
+                                <h2> @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceType) </h2>
+                                <h2> @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceData) </h2>
+                                <h2> @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID) </h2>
+                            }
+                            <h2 id="error"> @ViewBag.error</h2>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="jumbotron">
+                            @if (Session["song"] != null)
+                            {
+                                @Html.ActionLink("Previous", "Previous", new { songID = (int?)(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID), playlistID = (((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) }, null)
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="jumbotron">
+                            @if (Session["song"] != null)
+                            {
+                                @Html.ActionLink("Next", "Next", new { songID = (int?)(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID), playlistID = (((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) }, null)
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="jumbotron">
+                            @if (Session["song"] != null)
+                            {
+                                @Html.ActionLink("Pause", "Pause", null, new { id = "pause" })
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="jumbotron">
+                            @if (Session["song"] != null)
+                            {
+                                @Html.ActionLink("Play", "Play", null, new { id = "play" })
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="jumbotron">
+                    <h2 style="text-align:center">Playlist</h2>
+                    <hr />
+                    @if (Session["playlist"] != null)
+                    {
+
+                        <h2 style="text-align:center">@(((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistName)</h2>
+                        <hr />
+                    }
+
+                    <table class="table">
+                        <tr>
+                            <th style="color: #B0FDFF;">
+                                name
+                            </th>
+                            <th></th>
+                        </tr>
+                        @if (Session["playlist"] != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SongName)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Play", "Index", "Player", new { songID = item.SongID, playlistID = item.PlaylistID }, null)
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        @if (Session["song"] != null)
+        {
+
+            if ((((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceType) == 0)
+            {
+
+                <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script type="text/javascript">
+
+                $(document).ready(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Player/checkStatus",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "html",
+                            success: function (result, status, xhr) {
+                                if (result == "True" || result == "false") {
+                                    setInterval(function () {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Player/checkStatus",
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "html",
+                                            success: function (result, status, xhr) {
+                                                if (result == "True") {
+                                                    var urlString = "https://localhost:44395/Player/Next?playlistID=" + @(((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) + "&songID=" + @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID);
+                                                    var url = new URL(urlString);
+                                                    window.location = url;
+                                                }
+                                            },
+                                            error: function (xhr, status, error) {
+                                                $("#dataDiv").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                                            }
+                                        });
+                                    }, 1000);
+                                }
+                                else if (result == "Spotify player is not active") {
+                                    document.getElementById("error").innerHTML(result);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                                $("#dataDiv").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                            }
+                        });
+                });
+
+                 $(document).ready(function () {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Player/getImage",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "html",
+                            success: function (result, status, xhr) {
+                                if (result == "no Spotify connection") {
+                                    $("#error")[0].innerHTML = result;
+                                } else {
+                                    $("#image")[0].src = result;
+                                }
+
+                                //
+
+                            },
+                            error: function (xhr, status, error) {
+
+                                $("#dataDiv").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                            }
+                        });
+
+                 });
+
+                $("#pause").click(function (e) {
+
+                    e.preventDefault();
+                    $.ajax({
+
+                        url: $(this).attr("href")
+
+
+                    });
+
+                });
+
+                $("#play").click(function (e) {
+
+                    e.preventDefault();
+                    $.ajax({
+
+                        url: $(this).attr("href")
+
+                    });
+
+                });
+                </script>
+            }
+            else if ((((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceType) == 1)
+            {
+                <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script type="text/javascript">
+
+            var url = @Html.Raw(Json.Encode((((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SourceData)));
+            url = url.split('v=')[1];
+            $("#video")[0].src = "//www.youtube.com/embed/" + url + "?&autoplay=1&version=3&enablejsapi=1";
+            $("#video").show();
+
+
+                $("body").on("click", "#pause", function (e) {
+                    e.preventDefault()
+            $('.yt_player_iframe').each(function () {
+                this.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*')
+
+            });
+
+        });
+                $("body").on("click", "#play", function (e) {
+                    e.preventDefault()
+            $('.yt_player_iframe').each(function () {
+
+                this.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*')
+            });
+
+        });
+        $("body").on("click", "#btnNext", function () {
+            var urlString = "https://localhost:44395/Player/Next?playlistID=" +   @(((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) + "&songID=" + @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID);
+            var url = new URL(urlString);
+            window.location = url;
+
+        });
+        $("body").on("click", "#btnPrev", function () {
+            var urlString = "https://localhost:44395/Player/Previous?playlistID=" +   @(((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) + "&songID=" + @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID);
+            var url = new URL(urlString);
+            window.location = url;
+
+        });
+
+
+        var addYoutubeEventListener = (function () {
+
+            var callbacks = [];
+            var iframeId = 0;
+
+            return function (iframe, callback) {
+
+                if (iframeId === 0) {
+                    window.addEventListener("message", function (e) {
+
+                        if (e.origin !== "https://www.youtube.com" || e.data === undefined) return;
+                        try {
+                            var data = JSON.parse(e.data);
+                            if (data.event !== 'onStateChange') return;
+
+                            var callback = callbacks[data.id];
+                            callback(data);
+                        }
+                        catch (e) { }
+                    });
+                }
+                iframeId++;
+                callbacks[iframeId] = callback;
+                var currentFrameId = iframeId;
+
+                iframe.addEventListener("load", function () {
+                    var message = JSON.stringify({
+                        event: 'listening',
+                        id: currentFrameId,
+                        channel: 'widget'
+                    });
+                    iframe.contentWindow.postMessage(message, 'https://www.youtube.com');
+
+                    message = JSON.stringify({
+                        event: "command",
+                        func: "addEventListener",
+                        args: ["onStateChange"],
+                        id: currentFrameId,
+                        channel: "widget"
+                    });
+                    iframe.contentWindow.postMessage(message, 'https://www.youtube.com');
+                });
+            }
+        })();
+        addYoutubeEventListener(document.getElementById("video"), function (e) {
+
+            switch (e.info) {
+                default:
+                    break;
+                case 0:
+                    var urlString = "https://localhost:44395/Player/Next?playlistID=" +   @(((TuneAndCraft.v5.Models.SourceConcepts.Playlist)(Session["playlist"])).PlaylistID) + "&songID=" + @(((TuneAndCraft.v5.Models.SourceConcepts.Song)(Session["song"])).SongID);
+                    var url = new URL(urlString);
+                    window.location = url;
+                    break;
+            }
+        });
+
+
+                </script>
+            }
+        }
+
+        </div>
+</body>

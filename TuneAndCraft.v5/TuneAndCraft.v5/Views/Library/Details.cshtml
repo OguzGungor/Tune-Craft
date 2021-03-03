@@ -1,0 +1,90 @@
+﻿@model List<TuneAndCraft.v5.Models.SourceConcepts.Song>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+    <div class="jumbotron">
+        <h2 style="text-align:center">Details</h2>
+    </div>
+
+<div>
+    <div class="jumbotron">
+        <h2 style="text-align:center">@ViewBag.playListName</h2>
+        <hr />
+
+        <table class="table">
+            <tr>
+                <th style="color: #B0FDFF;">
+                    name
+                </th>
+                <th style="color: #B0FDFF;">
+                    source
+                </th>
+                <th></th>
+            </tr>
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SongName)
+                </td>
+
+
+                @if (item.SourceType == 0)
+                {
+            <td>
+                Spotify
+            </td>
+
+                }
+                else
+                {
+
+            <td>
+                Youtube
+            </td>
+               
+                }
+
+
+
+            <td>
+                @Html.ActionLink("Edit", "Edit","MySongs", new { id = item.SongID },null) |
+                @Html.ActionLink("Remove", "Delete", "MySongs", new { id = item.SongID }, null)
+            </td>
+            </tr>
+                    }
+            
+
+        </table>
+    </div>
+</div>
+<div class="row" style="text-align:center;font-size:x-large">
+    <div class="col-md-3">
+        <div class="jumbotron">
+            @Html.ActionLink("Edit", "Edit", new { id = ViewBag.PlaylistID })
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron">
+                @Html.ActionLink("Add Youtube", "CreateYoutube","MySongs")
+          
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron">
+                @Html.ActionLink("Add Spotify", "SearchSpotify", "MySongs")
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron">
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+    </div>
+
+</div>

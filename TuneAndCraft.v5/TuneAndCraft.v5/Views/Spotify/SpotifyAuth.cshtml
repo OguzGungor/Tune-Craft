@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<p id="test"></p>
+<p id="test2"></p>
+
+
+<script type="text/javascript" language="javascript">
+    document.getElementById("test").innerHTML = window.location.href;
+    var urlString = window.location.href;
+    urlString = urlString.replace("#", "?");
+    urlString = urlString.replace("SpotifyAuth","SpotifyAuthConfirm");
+    var url = new URL(urlString);
+    window.location = url;
+
+
+</script>
+
+
+

@@ -1,0 +1,117 @@
+﻿@model TuneAndCraft.v5.Models.ViewModel.HomeModel
+@{//model IEnumerable<TuneAndCraft.v5.Models.ViewModel.HomeModel>}
+}
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+    // authenticated
+}
+
+
+
+
+
+<div class="jumbotron">
+
+    <h1 style="color:#B0FDFF;text-align:center">Tune&Craft</h1>
+    <p class="lead" style="text-align:center">Tune your spotify and youtube sources.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="jumbotron">
+            <h3 style="color:#B0FDFF;text-align:center">Favourite Songs</h3>
+            <hr />
+            @if (ViewBag.view == 3)
+            {
+                <table class="table">
+                    <tr>
+
+                        <th style="color:#B0FDFF;">
+                            Name
+                        </th>
+                        <th style="color:#B0FDFF;">
+                            Album Name
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.favouriteSongs)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Track.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Track.Album.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Add to my songs", "AddSong", "MySongs", new { songName = item.Track.Name, sourceType = 0, sourceData = "spotify:track:" + item.Track.Id }, null)
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            }
+            else
+            {
+                <h3>@ViewBag.homeMessage</h3>
+                <p>
+                    @Html.ActionLink("Click here to go to spotify tab", "Index", "Spotify")
+                </p>
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="jumbotron">
+            <h3 style="color:#B0FDFF;text-align:center">Playlists</h3>
+            <hr />
+            @if (ViewBag.view == 3)
+            {
+                <table class="table">
+                    <tr>
+                        <th style="color:#B0FDFF;">
+                            Name
+                        </th>
+                        <th></th>
+                    </tr>
+
+
+                    @foreach (var item in Model.playlists)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View", "Playlist", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            }
+            else
+            {
+                <h3>@ViewBag.homeMessage</h3>
+                <p>@Html.ActionLink("Click here to go to spotify tab", "Index", "Spotify")</p>
+            }
+        </div>
+    </div>
+</div>
+
+@{
+
+    /*
+            <div class="col-md-4">
+                <h2>Web Hosting</h2>
+                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+            </div>*/
+}

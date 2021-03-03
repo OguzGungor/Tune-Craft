@@ -1,0 +1,50 @@
+﻿@model TuneAndCraft.v5.Models.SourceConcepts.Song
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Song</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Playlist.PlaylistName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Playlist.PlaylistName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SongName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SongName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceData)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SongID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
